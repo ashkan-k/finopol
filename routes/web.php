@@ -1,29 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-//    \App\Models\User::create([
-//        'email' => 'as@gmail.com',
-//        'phone' => '09396988720',
-//        'password' => \Illuminate\Support\Facades\Hash::make('123'),
-//        'name' => 'ashkan',
-//        'email_verified_at' => now(),
-//    ]);
-
-    \Illuminate\Support\Facades\Auth::loginUsingId(1);
-
     return view('welcome');
 });
+Route::get('/logout', function() {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login');
+})->name('logout');
 
-Route::get('/login', function () {
-    return view("auth.login");
-});
+Route::get('/login', [\App\Http\Controllers\AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
 
-Route::get('/register', function () {
-    return view("auth.register");
-});
+Route::get('/register', [\App\Http\Controllers\AuthController::class, 'showRegister']);
+Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
-Route::get('/reset-password', function () {
-    return view("auth.reset-password");
-});
+Route::get('/reset-password', [\App\Http\Controllers\AuthController::class, 'showReset']);
+Route::post('/reset-password/request', [\App\Http\Controllers\AuthController::class, 'requestReset']);
+Route::post('/reset-password/verify', [\App\Http\Controllers\AuthController::class, 'verifyResetCode']);
+Route::post('/reset-password/complete', [\App\Http\Controllers\AuthController::class, 'completeReset']);

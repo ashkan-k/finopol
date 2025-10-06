@@ -8,11 +8,11 @@
     <div class="main-header">
         <div class="inner">
             <div class="title">
-                <h1><i class="fi fi-rs-search"></i>جستجوی توکن</h1>
+                <h1><i class="fi fi-rs-key"></i>مدیریت توکن‌ها</h1>
                 <div class="breadcrumb">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb-list mb-0">
-                            <li class="breadcrumb-item"><a href="/dashboard">داشبورد</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">داشبورد</a></li>
                             <li class="breadcrumb-item active" aria-current="page">توکن ها</li>
                         </ol>
                     </nav>
@@ -89,32 +89,45 @@
                     <table class="table-custom table-head-slim">
                         <thead>
                         <tr>
-                            <th>ردیف</th>
-                            <th>عنوان</th>
-                            <th>کاربر</th>
-                            <th>آی‌پی‌ها</th>
-                            <th>تاریخ فعال‌سازی</th>
-                            <th>توکن</th>
-                            <th></th>
+                            <th style="width:60px">#</th>
+                            <th style="min-width:180px">عنوان</th>
+                            <th style="min-width:160px">کاربر</th>
+                            <th style="min-width:160px">آی‌پی‌ها</th>
+                            <th style="min-width:140px">وضعیت/تاریخ</th>
+                            <th style="min-width:220px">توکن</th>
+                            <th style="width:140px; text-align:center;">عملیات</th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse($tokens as $index => $token)
                             <tr>
                                 <td>{{ $tokens->firstItem() + $index }}</td>
-                                <td>{{ $token->title }}</td>
-                                <td>{{ optional($token->user)->name }}</td>
-                                <td>{{ $token->ips }}</td>
-                                <td>{{ optional($token->activated_at)->format('Y-m-d H:i') }}</td>
-                                <td><code>{{ \Illuminate\Support\Str::limit($token->token, 100) }}</code></td>
                                 <td>
-                                    <a class="btn btn-primary" href="{{ route('dashboard.tokens.edit', $token) }}">ویرایش</a>
-                                    <form action="{{ route('dashboard.tokens.destroy', $token) }}" method="post"
-                                          style="display:inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger" onclick="return confirm('حذف شود؟')">حذف</button>
-                                    </form>
+                                    <div style="display:flex; align-items:center; gap:8px;">
+                                        <i class="fi fi-rs-key" style="font-size:18px;"></i>
+                                        <span>{{ $token->title }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ optional($token->user)->name ?: '-' }}</td>
+                                <td><span class="badge badge-info" style="direction:ltr">{{ $token->ips ?: '-' }}</span></td>
+                                <td>
+                                    @if($token->activated_at)
+                                        <span class="badge badge-success">فعال</span>
+                                        <small class="text-muted d-block" style="direction:ltr">{{ $token->activated_at->format('Y-m-d H:i') }}</small>
+                                    @else
+                                        <span class="badge badge-danger">غیرفعال</span>
+                                    @endif
+                                </td>
+                                <td><code style="direction:ltr">{{ \Illuminate\Support\Str::limit($token->token, 38) }}</code></td>
+                                <td style="text-align:center;">
+                                    <div style="display:inline-flex; gap:8px;">
+                                        <a class="btn btn-primary" title="ویرایش" href="{{ route('dashboard.tokens.edit', $token) }}"><i class="fi fi-rs-edit"></i></a>
+                                        <form action="{{ route('dashboard.tokens.destroy', $token) }}" method="post" onsubmit="return confirm('حذف شود؟')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger" title="حذف"><i class="fi fi-rs-trash"></i></button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty

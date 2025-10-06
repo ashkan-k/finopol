@@ -10,28 +10,28 @@
                 </div>
                 <h1>ورود به پنل فینوپی</h1>
             </div>
-            <div class="row">
+            <form method="post" action="{{ url('/login') }}">
+                @csrf
+                <div class="row">
                 <div class="forms-group">
                     <div class="input-group">
-                        <label>آدرس ایمیل / شماره موبایل / کد ملی</label>
-                        <input type="text" class="input">
+                        <label>شماره موبایل</label>
+                        <input name="phone" value="{{ old('phone') }}" type="text" class="input" required>
                         <div class="icon"><i class="fi fi-rs-user"></i></div>
-                        <div class="text-alert error">نام کاربری اشتباه است</div>
+                        @error('phone')<div class="text-alert error">{{ $message }}</div>@enderror
                     </div>
                     <div class="input-group">
                         <label>کلمه عبور</label>
-                        <input type="password" class="input">
+                        <input name="password" type="password" class="input" required>
                         <div class="icon"><i class="fi fi-rs-lock"></i></div>
+                        @error('password')<div class="text-alert error">{{ $message }}</div>@enderror
                     </div>
                 </div>
             </div>
-            <span class="msg-content error text-center">نام کاربری یا رمز عبور اشتباه است</span>
-            <span class="msg-content success">نام کاربری یا رمز عبور اشتباه است</span>
-            <span class="msg-content info text-left">نام کاربری یا رمز عبور اشتباه است</span>
-            <span class="msg-content warning text-center">نام کاربری یا رمز عبور اشتباه است</span>
             <div class="login-button">
-                <a href="index.html" class="btn btn-primary">ورود</a>
+                <button class="btn btn-primary">ورود</button>
             </div>
+            </form>
 
             <div class="auth-links mt-3">
                 <span>اکانت ندارید؟ <a href="/register">ثبت نام کنید</a></span>
