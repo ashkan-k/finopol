@@ -6,7 +6,6 @@ use App\Http\Traits\Searchable;
 use Hekmatinasser\Verta\Verta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\User\Entities\User;
 
 class Ticket extends Model
 {
@@ -42,11 +41,11 @@ class Ticket extends Model
     public function get_status_class()
     {
         if ($this->status == 'waiting') {
-            return 'warning';
+            return 'waiting';
         } elseif ($this->status == 'answered') {
             return 'success';
         }
-        return 'danger';
+        return 'new';
     }
 
     public function getCreatedAtFromNowAttribute()
