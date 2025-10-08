@@ -1,0 +1,20 @@
+<?php
+
+
+namespace App\Enums;
+
+
+class EnumHelpers
+{
+    static $FinoServicesCategoryItemsEnum = [
+        'authorization' => 'احراز هویت',
+        'bank' => 'استعلام بانکی',
+        'service' => 'استعلام خدماتی',
+    ];
+
+    static $FinoApiCallsStatusItemsEnum = [
+        'success' => 'موفق',
+        'fail' => 'ناموفق',
+        'unknown' => 'نامشخص',
+    ];
+}

@@ -23,13 +23,13 @@
     <!-- مدیریت توکن ها -->
     <li class="nav-item">
         <a class="sub-item btn-collapse" data-collapse-target="#collapse-tokens">
-            <i class="fi fi-rs-user"></i><span class="title">مدیریت توکن ها</span>
+            <i class="fi fi-rs-user"></i><span class="title">مدیریت توسعه‌دهندگان</span>
             <div class="icon icon-angel"></div>
         </a>
         <div class="card-collapse" id="collapse-tokens">
             <ul>
-                <li><a href="{{ route('dashboard.tokens.index') }}">لیست توکن‌ها</a></li>
-                <li><a href="{{ route('dashboard.tokens.index') }}s">افزودن توکن</a></li>
+                <li><a href="{{ route('dashboard.tokens.index') }}">لیست توسعه‌دهندگان</a></li>
+                <li><a href="{{ route('dashboard.tokens.create') }}">افزودن توکن توسعه‌دهندگان</a></li>
             </ul>
         </div>
     </li>

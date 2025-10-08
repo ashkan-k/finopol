@@ -1,19 +1,19 @@
 @extends('layout.master')
 
 @section('Page_Title')
-    لیست توکن‌ها
+    لیست توسعه‌دهندگان
 @endsection
 
 @section('Content')
     <div class="main-header">
         <div class="inner">
             <div class="title">
-                <h1><i class="fi fi-rs-key"></i>مدیریت توکن‌ها</h1>
+                <h1><i class="fi fi-rs-key"></i>مدیریت توسعه‌دهندگان</h1>
                 <div class="breadcrumb">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb-list mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">داشبورد</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">توکن ها</li>
+                            <li class="breadcrumb-item active" aria-current="page">توسعه‌دهندگان</li>
                         </ol>
                     </nav>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="search-form">
                     <h4 class="form-title mb-4">
                         <i class="fi fi-rs-search"></i>
-                        جستجوی توکن
+                        جستجوی توسعه‌دهندگان
                     </h4>
                     <form method="get">
                         <div class="row">
