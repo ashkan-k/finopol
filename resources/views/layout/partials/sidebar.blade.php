@@ -34,6 +34,20 @@
         </div>
     </li>
 
+    <!-- مدیریت سرویس ها -->
+    <li class="nav-item">
+        <a class="sub-item btn-collapse" data-collapse-target="#collapse-finoservices">
+            <i class="fi fi-rs-user"></i><span class="title">مدیریت سرویس ها</span>
+            <div class="icon icon-angel"></div>
+        </a>
+        <div class="card-collapse" id="collapse-finoservices">
+            <ul>
+                <li><a href="{{ route('dashboard.finoservices.index') }}">لیست سرویس ها</a></li>
+                <li><a href="{{ route('dashboard.finoservices.create') }}">افزودن سرویس</a></li>
+            </ul>
+        </div>
+    </li>
+
     <!-- خروج از سیستم -->
     <li class="nav-item">
         <a class="sub-item" href="{{ route('logout') }}">
