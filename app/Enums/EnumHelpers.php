@@ -17,4 +17,6 @@ class EnumHelpers
         'fail' => 'ناموفق',
         'unknown' => 'نامشخص',
     ];
+
+    static $TicketStatusEnum = ['waiting', 'answered', 'close'];
 }
