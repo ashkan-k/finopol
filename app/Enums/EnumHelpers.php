@@ -19,4 +19,9 @@ class EnumHelpers
     ];
 
     static $TicketStatusEnum = ['waiting', 'answered', 'close'];
+
+    static $WalletHistoryTypesEnum = [
+        'deposit' => 'واریز',
+        'withdraw' => 'برداشت',
+    ];
 }

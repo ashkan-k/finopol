@@ -29,18 +29,17 @@ class ApiCallController extends Controller
         $fromJ = $request->string('range_from')->toString();
         $toJ = $request->string('range_to')->toString();
 
-        $fromG = Verta::parse($fromJ)->toCarbon();
-        $toG = Verta::parse($toJ)->toCarbon();
-
-        // Prepare debug date strings
-        $fromDateStr = $fromG ? $fromG->toDateString() : null;
-        $toDateStr = $toG ? $toG->toDateString() : null;
-
         // Use date-only comparisons to avoid timezone/time issues
-        if ($fromG) {
+        if ($fromJ) {
+            $fromG = Verta::parse($fromJ)->toCarbon();
+            $fromDateStr = $fromG ? $fromG->toDateString() : null;
+
             $query->where('created_at', '>=', $fromG->startOfDay());
         }
-        if ($toG) {
+        if ($toJ) {
+            $toG = Verta::parse($toJ)->toCarbon();
+            $toDateStr = $toG ? $toG->toDateString() : null;
+
             $query->where('created_at', '<=', $toG->startOfDay());
         }
 
