@@ -20,10 +20,17 @@
         </div>
     </li>
 
+    <!-- خروج از سیستم -->
+    <li class="nav-item">
+        <a class="sub-item" href="{{ route('dashboard.api-calls.index') }}">
+            <i class="fi fi-rs-chart-area"></i><span class="title">گزارش‌ها</span>
+        </a>
+    </li>
+
     <!-- مدیریت توکن ها -->
     <li class="nav-item">
         <a class="sub-item btn-collapse" data-collapse-target="#collapse-tokens">
-            <i class="fi fi-rs-user"></i><span class="title">مدیریت توسعه‌دهندگان</span>
+            <i class="fi fi-rs-token"></i><span class="title">مدیریت توسعه‌دهندگان</span>
             <div class="icon icon-angel"></div>
         </a>
         <div class="card-collapse" id="collapse-tokens">
@@ -37,13 +44,26 @@
     <!-- مدیریت سرویس ها -->
     <li class="nav-item">
         <a class="sub-item btn-collapse" data-collapse-target="#collapse-finoservices">
-            <i class="fi fi-rs-user"></i><span class="title">مدیریت سرویس ها</span>
+            <i class="fi fi-rs-customer-service"></i><span class="title">مدیریت سرویس ها</span>
             <div class="icon icon-angel"></div>
         </a>
         <div class="card-collapse" id="collapse-finoservices">
             <ul>
                 <li><a href="{{ route('dashboard.finoservices.index') }}">لیست سرویس ها</a></li>
                 <li><a href="{{ route('dashboard.finoservices.create') }}">افزودن سرویس</a></li>
+            </ul>
+        </div>
+    </li>
+
+    <!-- مدیریت سرویس ها -->
+    <li class="nav-item">
+        <a class="sub-item btn-collapse" data-collapse-target="#collapse-tickets">
+            <i class="fi fi-rs-ticket"></i><span class="title">مدیریت تیکت ها</span>
+            <div class="icon icon-angel"></div>
+        </a>
+        <div class="card-collapse" id="collapse-tickets">
+            <ul>
+                <li><a href="{{ route('dashboard.tickets.index') }}">لیست تیکت ها</a></li>
             </ul>
         </div>
     </li>

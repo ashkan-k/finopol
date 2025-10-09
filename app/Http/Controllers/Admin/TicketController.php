@@ -9,6 +9,8 @@ use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\Admin\TicketStoreRequest;
+use App\Http\Requests\Admin\TicketUpdateRequest;
 use Illuminate\View\View;
 
 class TicketController extends Controller
@@ -39,18 +41,11 @@ class TicketController extends Controller
         return view('admin.tickets.create', compact('users'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(TicketStoreRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'user_id' => ['nullable', 'integer', 'exists:users,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'text' => ['required', 'string'],
-            'status' => ['nullable', 'in:waiting,answered,close'],
-        ]);
-
-        $file = $this->UploadFile($request, 'file', 'ticket_files', $data['user_id']);
-
-        Ticket::create(array_merge($data, ['file' => $file]));
+        $data = $request->validated();
+        $file = $this->UploadFile($request, 'file', 'ticket_files', $data['user_id'] ?? null);
+        Ticket::create(array_merge($data, ['file' => $file ?: null]));
         return redirect()->route('dashboard.tickets.index')->with('success', 'تیکت ایجاد شد.');
     }
 
@@ -60,18 +55,11 @@ class TicketController extends Controller
         return view('admin.tickets.edit', compact('ticket', 'users'));
     }
 
-    public function update(Request $request, Ticket $ticket): RedirectResponse
+    public function update(TicketUpdateRequest $request, Ticket $ticket): RedirectResponse
     {
-        $data = $request->validate([
-            'user_id' => ['nullable', 'integer', 'exists:users,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'text' => ['required', 'string'],
-            'status' => ['nullable', 'in:waiting,answered,close'],
-        ]);
-
-        $file = $this->UploadFile($request, 'file', 'ticket_files', $data['user_id'], $ticket->file);
-
-        $ticket->update(array_merge($data, ['file' => $file]));
+        $data = $request->validated();
+        $file = $this->UploadFile($request, 'file', 'ticket_files', $data['user_id'] ?? null, $ticket->file);
+        $ticket->update(array_merge($data, ['file' => $file ?: $ticket->file]));
         return redirect()->route('dashboard.tickets.index')->with('success', 'تیکت بروزرسانی شد.');
     }
 

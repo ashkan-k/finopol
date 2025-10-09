@@ -30,12 +30,14 @@ class ApiCall extends Model
         return EnumHelpers::$FinoApiCallsStatusItemsEnum[$this->status] ?? '---';
     }
 
-    private function generateUniqueTrackingId(): string
+    public function get_status_class()
     {
-        do {
-            $candidate = Str::random(22) . ':' . Str::random(120);
-        } while (ApiCall::where('tracking_id', $candidate)->exists());
-        return $candidate;
+        if ($this->status == 'unknown') {
+            return 'waiting';
+        } elseif ($this->status == 'success') {
+            return 'fail';
+        }
+        return 'new';
     }
 
     public function save(array $options = [])
@@ -47,15 +49,13 @@ class ApiCall extends Model
         return parent::save($options);
     }
 
-    //
-
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function fino_service()
+    public function finoService()
     {
-        return $this->belongsTo(FinoService::class);
+        return $this->belongsTo(FinoService::class, 'fino_service_id');
     }
 }
