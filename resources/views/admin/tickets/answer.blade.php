@@ -33,7 +33,11 @@
                     </div>
                 </div>
             </div>
-            <div style="text-align:center; margin-top:12px; color:#444;">{{ $ticket->text_row }}</div>
+            <div style="text-align:center; margin-top:12px; color:#444;">{{ $ticket->title }}</div>
+
+            @if($ticket->file)
+                <a class="btn btn-secondary mt-5" href="{{ $ticket->file ?: '---' }}" target="_blank">فایل ضمیمه</a>
+            @endif
 
             <div class="divider"></div>
 
@@ -50,23 +54,44 @@
                     <span>{{ $ticket->user?->name }}</span>
                 </div>
                 <div style="background:#e6ffd6; padding:16px; min-height:140px;">
-                    <p style="margin:0; color:#253046;">{{ $ticket->title }}</p>
+                    <p style="margin:0; color:#253046;">{{ $ticket->text_row }}</p>
                 </div>
             </div>
+
+            @foreach($answers as $answer)
+                <div class="card mt-5" style="border:1px solid #d1d5db;">
+                    <div style="background:#7a8573; color:#fff; padding:8px 12px; display:flex; justify-content:space-between;">
+                        <span>{{ $answer->created_at_from_now ?? '' }}</span>
+                        <span>{{ $answer->user?->name }}</span>
+                    </div>
+                    <div style="background:#e6ffd6; padding:16px; min-height:140px;">
+                        <p style="margin:0; color:#253046;">{{ $answer->text }}</p>
+
+                        @if($answer->file)
+                            <a class="btn btn-secondary mt-5" href="{{ $answer->file ?: '---' }}" target="_blank">فایل ضمیمه</a>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
 
             <div class="divider"></div>
 
-            <div>
-                <label style="font-weight:700;">متن پاسخ <span style="color:#d22c2c">*</span></label>
-                <div class="reply-box input-group no-icon">
-                    <textarea class="input" rows="10" placeholder="متن پاسخ را وارد کنید"></textarea>
+
+            <form action="{{ route('dashboard.tickets-answer-store', $ticket->id ?: '---') }}" enctype="multipart/form-data" method="post">
+                @csrf
+
+                <div>
+                    <label style="font-weight:700;">متن پاسخ <span style="color:#d22c2c">*</span></label>
+                    <div class="reply-box input-group no-icon">
+                        <textarea class="input" name="text" required rows="10" placeholder="متن پاسخ را وارد کنید"></textarea>
+                    </div>
+                    <div class="reply-actions">
+                        <label class="btn btn-secondary-outline icon-right" for="id_file"><i class="fi fi-rs-paperclip"></i>پیوست</label>
+                        <input type="file" id="id_file" style="display: none" name="file">
+                        <button class="btn btn-primary">ارسال</button>
+                    </div>
                 </div>
-                <div class="reply-actions">
-                    <label class="btn btn-secondary-outline icon-right"><i class="fi fi-rs-paperclip" onclick="$('#id_file').click()"></i>پیوست</label>
-                    <input type="file" id="id_file" style="display: none" name="file">
-                    <button class="btn btn-primary">ارسال</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 @endsection

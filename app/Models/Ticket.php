@@ -115,6 +115,6 @@ class Ticket extends Model
 
     public function answers()
     {
-        return $this->hasMany(TicketAnswer::class);
+        return $this->hasMany(TicketAnswer::class, 'ticket_id');
     }
 }

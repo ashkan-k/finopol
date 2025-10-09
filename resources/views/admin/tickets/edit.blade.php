@@ -8,7 +8,7 @@
     <div class="main-header"><div class="inner"><div class="title"><h1><i class="fi fi-rs-edit"></i>ویرایش تیکت</h1></div></div></div>
     <div class="main-inner">
         <div class="card"><div class="card-body">
-            <form method="post" action="{{ route('dashboard.tickets.update', $ticket) }}">
+            <form method="post" action="{{ route('dashboard.tickets.update', $ticket) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row">
@@ -46,6 +46,17 @@
                     <textarea class="input" rows="5" name="text">{{ old('text', $ticket->text) }}</textarea>
                     @error('text')<div style="color:#d22c2c; font-size:12px; margin-top:4px;">{{ $message }}</div>@enderror
                 </div>
+
+                <div class="input-group no-icon">
+                    <label>فایل ضمیمه</label>
+                    <input class="input" type="file" name="file"/>
+                    @error('file')<div style="color:#d22c2c; font-size:12px; margin-top:4px;">{{ $message }}</div>@enderror
+
+                    @if($ticket->file)
+                        <a class="btn btn-secondary mt-2" href="{{ $ticket->file ?: '---' }}" target="_blank">فایل ضمیمه</a>
+                    @endif
+                </div>
+
                 <div class="form-actions">
                     <a href="{{ route('dashboard.tickets.index') }}" class="btn btn-secondary-outline">بازگشت</a>
                     <button class="btn btn-primary">ذخیره</button>

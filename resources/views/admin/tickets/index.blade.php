@@ -82,7 +82,7 @@
                                 <td>
                                     <span class="status color-{{ $ticket->get_status_class() }}">{{ $ticket->get_status() }}</span>
                                 </td>
-                                <td>{{ optional($ticket->created_at)->format('Y-m-d H:i') }}</td>
+                                <td dir="ltr">{{ optional($ticket->created_at)->format('Y-m-d H:i') }}</td>
                                 <td style="text-align:center;">
                                     <div style="display:inline-flex; gap:8px;">
                                         <a class="btn btn-secondary" href="{{ route('dashboard.tickets.show', $ticket) }}">نمایش</a>
