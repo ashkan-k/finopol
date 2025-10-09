@@ -25,6 +25,9 @@
         <div class="card">
             <div class="card-body">
                 <form method="get">
+                    @if(config('app.debug'))
+                        <div style="margin-bottom:8px; color:#444; font-size:12px;">Parsed range (gregorian): {{ $fromDateStr ?? '-' }} — {{ $toDateStr ?? '-' }}</div>
+                    @endif
                     <div class="row" style="gap:10px 0; align-items:center;">
                         <div class="col-lg-3 col-md-6">
                             <div class="select-group">
@@ -111,15 +114,47 @@
 
 @section('Page_JS')
 <script>
-    document.addEventListener('DOMContentLoaded', function(){
-        try{
-            if(window.kamaDatepicker){
-                var opts = { forceFarsiDigits:true, markToday:true, gotoToday:true };
-                kamaDatepicker('#api_from', opts);
-                kamaDatepicker('#api_to', opts);
+    (function(){
+        var opts = { forceFarsiDigits:true, markToday:true, gotoToday:true };
+        function applyPicker(){
+            var from = document.getElementById('api_from');
+            var to = document.getElementById('api_to');
+            try{
+                if(typeof kamaDatepicker === 'function'){
+                    if(from) kamaDatepicker('api_from', opts);
+                    if(to) kamaDatepicker('api_to', opts);
+                    return true;
+                }
+            }catch(err){
+                console.error('kamaDatepicker init error', err);
             }
-        }catch(e){}
-    });
+            return false;
+        }
+
+        // Try immediately or on DOM ready, then retry a few times if library isn't available yet
+        function start(){
+            if(applyPicker()) return;
+            var tries = 0;
+            var maxTries = 8;
+            var interval = setInterval(function(){
+                tries++;
+                if(applyPicker() || tries >= maxTries){
+                    clearInterval(interval);
+                    if(tries >= maxTries){
+                        // visible fallback to help debugging: mark inputs with red border
+                        var f = document.getElementById('api_from');
+                        var t = document.getElementById('api_to');
+                        if(f) f.style.border = '1px solid #e55353';
+                        if(t) t.style.border = '1px solid #e55353';
+                    }
+                }
+            }, 300);
+        }
+
+        if(document.readyState === 'loading'){
+            document.addEventListener('DOMContentLoaded', start);
+        } else start();
+    })();
 </script>
 @endsection
 

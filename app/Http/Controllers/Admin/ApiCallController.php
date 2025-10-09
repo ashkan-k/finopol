@@ -6,8 +6,12 @@ use App\Enums\EnumHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\ApiCall;
 use App\Models\FinoService;
+use Hekmatinasser\Verta\Verta;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class ApiCallController extends Controller
 {
@@ -21,21 +25,28 @@ class ApiCallController extends Controller
         if ($serviceId = $request->integer('fino_service_id')) {
             $query->where('fino_service_id', $serviceId);
         }
-        if ($range = $request->string('range')->toString()) {
-            // expected format like 1404/06/17 - 1404/07/17 (Jalali). We keep raw filter as created_at between two gregorian converted dates if provided via front-end.
-            $parts = array_map('trim', explode('-', $range));
-            if (count($parts) === 2) {
-                $from = $request->string('from_greg')->toString();
-                $to = $request->string('to_greg')->toString();
-                if ($from && $to) { $query->whereBetween('created_at', [$from.' 00:00:00', $to.' 23:59:59']); }
-            }
+        // Parse Jalali (Persian) input and convert to Gregorian datetimes
+        $fromJ = $request->string('range_from')->toString();
+        $toJ = $request->string('range_to')->toString();
+
+        $fromG = Verta::parse($fromJ)->toCarbon();
+        $toG = Verta::parse($toJ)->toCarbon();
+
+        // Prepare debug date strings
+        $fromDateStr = $fromG ? $fromG->toDateString() : null;
+        $toDateStr = $toG ? $toG->toDateString() : null;
+
+        // Use date-only comparisons to avoid timezone/time issues
+        if ($fromG) {
+            $query->where('created_at', '>=', $fromG->startOfDay());
+        }
+        if ($toG) {
+            $query->where('created_at', '<=', $toG->startOfDay());
         }
 
         $calls = $query->latest('id')->paginate(10)->withQueryString();
-        $services = FinoService::query()->orderBy('title')->get(['id','title']);
+        $services = FinoService::query()->orderBy('title')->get(['id', 'title']);
         $statuses = EnumHelpers::$FinoApiCallsStatusItemsEnum;
-        return view('admin.api_calls.index', compact('calls','services','statuses'));
+        return view('admin.api_calls.index', compact('calls', 'services', 'statuses', 'fromDateStr', 'toDateStr'));
     }
 }
-
-

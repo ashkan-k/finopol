@@ -25,6 +25,8 @@
     <link rel="apple-touch-icon" sizes="72x72" href="assets/images/logo-72x72.png" />
     <link rel="apple-touch-icon" sizes="114x114" href="assets/images/logo-114x114.png" />
     @Yield('Page_CSS')
+    <!-- kamaDatepicker CSS -->
+    <link rel="stylesheet" href="helpers/css/kamadatepicker.min.css" />
 </head>
 
 <body>
@@ -215,6 +217,10 @@
 </div>
 
 <!-- Scripts -->
+<!-- jQuery (required by many scripts) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- kamaDatepicker -->
+<script src="helpers/js/kamadatepicker.min.js"></script>
 <script src="assets/js/dashboard-scripts.js"></script>
 <script src="assets/js/modalScript.js"></script>
 <script src="helpers/js/helpers.js"></script>

@@ -183,9 +183,9 @@
         try {
             if (window.kamaDatepicker) {
                 var opts = { forceFarsiDigits:true, markToday:true, gotoToday:true };
-                ['#date_from','#date_to','#date_from2','#date_to2','#date_from3','#date_to3'].forEach(function(id){
-                    if(document.querySelector(id)) kamaDatepicker(id, opts);
-                });
+				['date_from','date_to','date_from2','date_to2','date_from3','date_to3'].forEach(function(id){
+					if(document.getElementById(id)) kamaDatepicker(id, opts);
+				});
             }
         } catch (e) { /* ignore */ }
 
