@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\EnumHelpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Modules\Sms\Helpers\sms_helper;
 
 class WalletHistory extends Model
@@ -12,6 +13,7 @@ class WalletHistory extends Model
     use HasFactory;
 
     protected $fillable = [
+        'tracking_id',
         'wallet_id',
         'amount',
         'type',
@@ -48,7 +50,7 @@ class WalletHistory extends Model
 
     public function get_type_class()
     {
-        return $this->type == 'deposit' ? 'success' : 'danger';
+        return $this->type == 'deposit' ? 'success' : 'new';
     }
 
     public function get_item()
@@ -129,6 +131,15 @@ class WalletHistory extends Model
             $walletHistory->updateQuietly(['short_report' => $message]);
 
         }
+    }
+
+    public function save(array $options = [])
+    {
+        if (!$this->tracking_id) {
+            $this->tracking_id = (string) Str::uuid();
+        }
+
+        return parent::save($options);
     }
 
     protected static function newFactory()

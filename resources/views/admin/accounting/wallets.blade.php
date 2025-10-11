@@ -1,4 +1,4 @@
-@extends('layout.master')
+    @extends('layout.master')
 
 @section('Page_Title')
     کیف پول
@@ -42,7 +42,7 @@
     </div>
 
     <div class="main-inner">
-        <div class="row wallets-top">
+        <div class="row wallets-top mt-3">
             <div class="col-md-4">
                 <div class="card-top-gradient gradient-purple" style="flex-direction:column;">
                     <div style="text-align:center;">
@@ -93,22 +93,23 @@
                 <a href="{{ request()->fullUrlWithQuery(['export' => 'excel']) }}" class="btn-export"> <i class="fi fi-rs-download"></i> دانلود اکسل</a>
             </div>
             <div class="col-md-6" style="display:flex; gap:12px; align-items:center; justify-content:flex-end;">
-                <div class="select-group">
-                    <label style="display:none;">وضعیت</label>
-                    <select class="select" name="status">
-                        <option value="">وضعیت</option>
-                        <option value="success">موفق</option>
-                        <option value="failed">ناموفق</option>
-                        <option value="pending">در انتظار</option>
-                    </select>
-                </div>
-                <div class="select-group">
-                    <label style="display:none;">ترتیب</label>
-                    <select class="select" name="order">
-                        <option value="desc">نزولی (جدیدترین)</option>
-                        <option value="asc">صعودی (قدیمی‌ترین)</option>
-                    </select>
-                </div>
+                <form method="get" style="display:flex; gap:12px; align-items:center;">
+                    <div class="select-group">
+                        <label style="display:none;">وضعیت</label>
+                        <select class="select" name="status" onchange="this.form.submit()">
+                            <option value="">وضعیت</option>
+                            <option value="deposit" @if(request('status')=='deposit') selected @endif>واریز</option>
+                            <option value="withdraw" @if(request('status')=='withdraw') selected @endif>برداشت</option>
+                        </select>
+                    </div>
+                    <div class="select-group">
+                        <label style="display:none;">ترتیب</label>
+                        <select class="select" name="order" onchange="this.form.submit()">
+                            <option value="desc" @if(request('order')!='asc') selected @endif>نزولی</option>
+                            <option value="asc" @if(request('order')=='asc') selected @endif>صعودی</option>
+                        </select>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -123,19 +124,32 @@
                                 <th style="min-width:140px">زمان</th>
                                 <th style="min-width:160px">مبلغ</th>
                                 <th style="min-width:180px">کد پیگیری</th>
-                                <th style="min-width:160px">وضعیت</th>
+                                <th style="min-width:180px">نوع عملیات</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="6" class="text-center text-muted">داده‌ای برای نمایش پیدا نشد</td>
-                            </tr>
+                            @forelse($histories as $i => $history)
+                                <tr>
+                                    <td>{{ $histories->firstItem() + $i }}</td>
+                                    <td>{{ Verta::instance($history->created_at)->format('Y/m/d') }}</td>
+                                    <td>{{ Verta::instance($history->created_at)->format('H:i') }}</td>
+                                    <td>{{ number_format($history->amount) }} تومان</td>
+                                    <td>{{ $history->tracking_id ?? '-' }}</td>
+                                    <td>
+                                        <span class="status color-{{ $history->get_type_class() }}">{{ $history->get_type() }}</span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">داده‌ای برای نمایش پیدا نشد</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
 
                 <div class="mt-3" style="display:flex; justify-content:center;">
-                    <div>{{-- reuse pagination when data available --}}</div>
+                    {{ $histories->links() }}
                 </div>
             </div>
         </div>
@@ -144,7 +158,7 @@
 
 @section('Scripts')
 <script>
-    // preset amount buttons: write raw numeric value into input (no localized commas)
+    // preset amount buttons: write formatted numeric value into input
     document.addEventListener('DOMContentLoaded', function(){
         var presets = document.querySelectorAll('.preset');
         var input = document.getElementById('amountInput');
@@ -158,7 +172,6 @@
                 btn.classList.add('active');
             });
         });
-
     });
 </script>
 @endsection
