@@ -24,12 +24,29 @@ class User extends Authenticatable
         'phone',
         'password',
         'last_name',
+        'father_name',
         'national_code',
         'website',
+        'bank_card_number',
+        'bank_account_number',
+        'bank_name',
+        'bank_branch',
         'postal_code',
+        'emergency_contact_name',
+        'emergency_contact_phone',
         'address',
+        'description',
         'birth_date',
         'national_card_image',
+        'company_name',
+        'economic_code',
+        'registration_number',
+        'registration_date',
+        'image_of_the_statute',
+        'newspaper_image',
+        'CEO_id_card_image',
+        'CEO_national_id_card_image',
+        'cover_letter_image',
         'shahkar_inquiry_status',
         'status',
     ];
@@ -54,7 +71,6 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'birth_date' => 'date',
         ];
     }
 
