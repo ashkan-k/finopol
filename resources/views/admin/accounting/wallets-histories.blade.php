@@ -87,7 +87,7 @@
 
         <div class="row" style="margin:28px 0 12px 0; align-items:center;">
             <div class="col-md-6">
-                <a href="{{ route('dashboard.wallets.export') }}" target="_blank" class="btn-export">
+                <a href="{{ route('dashboard.wallets-histories.export') }}" target="_blank" class="btn-export">
                     <i class="fi fi-rs-download"></i> دانلود اکسل
                 </a>
             </div>

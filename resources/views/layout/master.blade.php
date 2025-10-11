@@ -321,6 +321,8 @@
         </div>
     </div>
 
+@yield('Scripts')
+
 </body>
 
 </html>

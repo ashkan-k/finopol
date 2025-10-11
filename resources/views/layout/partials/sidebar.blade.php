@@ -68,6 +68,20 @@
         </div>
     </li>
 
+    <!-- مدیریت سرویس ها -->
+    <li class="nav-item">
+        <a class="sub-item btn-collapse" data-collapse-target="#collapse-finance">
+            <i class="fi fi-rs-ticket"></i><span class="title">مالی و حسابداری</span>
+            <div class="icon icon-angel"></div>
+        </a>
+        <div class="card-collapse" id="collapse-finance">
+            <ul>
+                <li><a href="{{ route('dashboard.wallets.index') }}">لیست کیف پول ها</a></li>
+                <li><a href="{{ route('dashboard.wallets-histories.index') }}">گزارش کیف پول ها</a></li>
+            </ul>
+        </div>
+    </li>
+
     <!-- خروج از سیستم -->
     <li class="nav-item">
         <a class="sub-item" href="{{ route('logout') }}">

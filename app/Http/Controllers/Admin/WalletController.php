@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\WalletHistoryExport;
 use App\Http\Controllers\Controller;
+use App\Models\Wallet;
 use Hekmatinasser\Verta\Verta;
 use Illuminate\Http\Request;
 use App\Models\WalletHistory;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class WalletController extends Controller
 {
     public function index(Request $request)
     {
-        $query = WalletHistory::query()->with(['wallet.user']);
+        $query = Wallet::query()->with(['user']);
 
         if ($request->filled('status')) {
-            $query->where('type', $request->status);
+            $query->where('status', $request->status);
         }
 
         $order = $request->get('order', 'desc');
@@ -24,17 +27,5 @@ class WalletController extends Controller
         $histories = $query->paginate(20);
 
         return view('admin.accounting.wallets', compact('histories'));
-    }
-
-    public function transactions(Wallet $wallet)
-    {
-        // Implement transaction list view
-        return view('admin.accounting.wallet_transactions', compact('wallet'));
-    }
-
-    public function charge(Wallet $wallet)
-    {
-        // Implement charge wallet view
-        return view('admin.accounting.wallet_charge', compact('wallet'));
     }
 }
