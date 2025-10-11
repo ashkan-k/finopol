@@ -24,4 +24,16 @@ class EnumHelpers
         'deposit' => 'واریز',
         'withdraw' => 'برداشت',
     ];
+
+    static $ShahkarInquiryStatusEnum = [
+        'waiting' => 'در انتظار',
+        'approved' => 'تایید شده',
+        'reject' => 'رد شده',
+    ];
+
+    static $UserStatusEnum = [
+        'waiting' => 'در انتظار',
+        'approved' => 'تایید شده',
+        'reject' => 'رد شده',
+    ];
 }
