@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('Page_Title')
-    کیف پول
+    گزارش کیف پول
 @endsection
 
 @section('Content')
@@ -25,12 +25,12 @@
     <div class="main-header">
         <div class="inner">
             <div class="title">
-                <h1><i class="fi fi-rs-wallet"></i>کیف پول شما</h1>
+                <h1><i class="fi fi-rs-wallet"></i>گزارش کیف پول کاربران</h1>
                 <div class="breadcrumb">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb-list mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">داشبورد</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">کیف پول</li>
+                            <li class="breadcrumb-item active" aria-current="page">گزارش کیف پول</li>
                         </ol>
                     </nav>
                 </div>
@@ -39,51 +39,51 @@
     </div>
 
     <div class="main-inner">
-        <div class="row wallets-top mt-3">
-            <div class="col-md-4">
-                <div class="card-top-gradient gradient-purple" style="flex-direction:column;">
-                    <div style="text-align:center;">
-                        <div class="small text-muted" style="opacity:0.9">مجموع اعتبار شما</div>
-                        <div style="font-size:22px; font-weight:700; margin-top:6px;">{{ number_format(intval(auth()->user()->wallet?->balance) * 10) }} ریال</div>
-                    </div>
-                </div>
-            </div>
+{{--        <div class="row wallets-top mt-3">--}}
+{{--            <div class="col-md-4">--}}
+{{--                <div class="card-top-gradient gradient-purple" style="flex-direction:column;">--}}
+{{--                    <div style="text-align:center;">--}}
+{{--                        <div class="small text-muted" style="opacity:0.9">مجموع اعتبار شما</div>--}}
+{{--                        <div style="font-size:22px; font-weight:700; margin-top:6px;">{{ number_format(intval(auth()->user()->wallet?->balance) * 10) }} ریال</div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-            <div class="col-md-4">
-                <div class="charge-panel">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h4 class="form-title mb-1" style="font-weight:700;">شارژ کیف پول</h4>
-                            <p class="text-muted small" style="margin:0">کیف پول خود را از این بخش شارژ کنید</p>
-                        </div>
-                        <div style="text-align:center;">
+{{--            <div class="col-md-4">--}}
+{{--                <div class="charge-panel">--}}
+{{--                    <div style="display:flex; justify-content:space-between; align-items:center;">--}}
+{{--                        <div>--}}
+{{--                            <h4 class="form-title mb-1" style="font-weight:700;">شارژ کیف پول</h4>--}}
+{{--                            <p class="text-muted small" style="margin:0">کیف پول خود را از این بخش شارژ کنید</p>--}}
+{{--                        </div>--}}
+{{--                        <div style="text-align:center;">--}}
 {{--                            <small class="text-muted">100,000,000</small>--}}
-                        </div>
-                    </div>
+{{--                        </div>--}}
+{{--                    </div>--}}
 
-                    <div style="display:flex; gap:12px; align-items:center; margin-top:12px;">
-                        <button id="payBtn" class="btn btn-primary" style="padding:10px 22px;">پرداخت</button>
-                        <div style="flex:1;">
-                            <div class="input-group no-icon">
-                                <input id="amountInput" type="text" class="input" value="100,000,000" style="text-align:left;" />
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div style="display:flex; gap:12px; align-items:center; margin-top:12px;">--}}
+{{--                        <button id="payBtn" class="btn btn-primary" style="padding:10px 22px;">پرداخت</button>--}}
+{{--                        <div style="flex:1;">--}}
+{{--                            <div class="input-group no-icon">--}}
+{{--                                <input id="amountInput" type="text" class="input" value="100,000,000" style="text-align:left;" />--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
-                    <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;">
-                        <button type="button" class="preset" data-amount="100000">۱۰۰,۰۰۰ تومان</button>
-                        <button type="button" class="preset" data-amount="2000000">۲,۰۰۰,۰۰۰ تومان</button>
-                        <button type="button" class="preset" data-amount="10000000">۱۰,۰۰۰,۰۰۰ تومان</button>
-                    </div>
-                </div>
-            </div>
+{{--                    <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;">--}}
+{{--                        <button type="button" class="preset" data-amount="100000">۱۰۰,۰۰۰ تومان</button>--}}
+{{--                        <button type="button" class="preset" data-amount="2000000">۲,۰۰۰,۰۰۰ تومان</button>--}}
+{{--                        <button type="button" class="preset" data-amount="10000000">۱۰,۰۰۰,۰۰۰ تومان</button>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-            <div class="col-md-4">
-                <div class="card-top-gradient gradient-purple">
-                    <h3 style="font-weight:700;">به زودی</h3>
-                </div>
-            </div>
-        </div>
+{{--            <div class="col-md-4">--}}
+{{--                <div class="card-top-gradient gradient-purple">--}}
+{{--                    <h3 style="font-weight:700;">به زودی</h3>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         <div class="row" style="margin:28px 0 12px 0; align-items:center;">
             <div class="col-md-6">

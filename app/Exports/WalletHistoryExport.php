@@ -28,25 +28,19 @@ class WalletHistoryExport implements FromCollection, WithHeadings, WithMapping
             'ردیف',
             'نام کاربر',
             'شماره تلفن',
-            'روز',
-            'زمان',
-            'مبلغ',
-            'کد پیگیری',
+            'موجودی',
             'وضعیت',
         ];
     }
 
-    public function map($history): array
+    public function map($wallet): array
     {
         return [
-            $history->id,
-            $history->wallet->user->name ?? '-',
-            $history->wallet->user->phone ?? '-',
-            Verta::instance($history->created_at)->format('Y/m/d'),
-            Verta::instance($history->created_at)->format('H:i'),
-            number_format($history->amount),
-            $history->tracking_id ?? '-',
-            $history->get_type(),
+            $wallet->id,
+            $wallet->user->name ?? '-',
+            $wallet->user->phone ?? '-',
+            number_format($wallet->balance),
+            $wallet->status ? 'فعال' : 'غیرفعال',
         ];
     }
 }

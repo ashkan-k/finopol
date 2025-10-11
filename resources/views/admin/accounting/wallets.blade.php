@@ -25,7 +25,7 @@
     <div class="main-header">
         <div class="inner">
             <div class="title">
-                <h1><i class="fi fi-rs-wallet"></i>کیف پول شما</h1>
+                <h1><i class="fi fi-rs-wallet"></i>کیف پول کاربران</h1>
                 <div class="breadcrumb">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb-list mb-0">
@@ -39,68 +39,11 @@
     </div>
 
     <div class="main-inner">
-        <div class="row wallets-top mt-3">
-            <div class="col-md-4">
-                <div class="card-top-gradient gradient-purple" style="flex-direction:column;">
-                    <div style="text-align:center;">
-                        <div class="small text-muted" style="opacity:0.9">مجموع اعتبار شما</div>
-                        <div style="font-size:22px; font-weight:700; margin-top:6px;">{{ number_format(intval(auth()->user()->wallet?->balance) * 10) }} ریال</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="charge-panel">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h4 class="form-title mb-1" style="font-weight:700;">شارژ کیف پول</h4>
-                            <p class="text-muted small" style="margin:0">کیف پول خود را از این بخش شارژ کنید</p>
-                        </div>
-                        <div style="text-align:center;">
-{{--                            <small class="text-muted">100,000,000</small>--}}
-                        </div>
-                    </div>
-
-                    <div style="display:flex; gap:12px; align-items:center; margin-top:12px;">
-                        <button id="payBtn" class="btn btn-primary" style="padding:10px 22px;">پرداخت</button>
-                        <div style="flex:1;">
-                            <div class="input-group no-icon">
-                                <input id="amountInput" type="text" class="input" value="100,000,000" style="text-align:left;" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;">
-                        <button type="button" class="preset" data-amount="100000">۱۰۰,۰۰۰ تومان</button>
-                        <button type="button" class="preset" data-amount="2000000">۲,۰۰۰,۰۰۰ تومان</button>
-                        <button type="button" class="preset" data-amount="10000000">۱۰,۰۰۰,۰۰۰ تومان</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card-top-gradient gradient-purple">
-                    <h3 style="font-weight:700;">به زودی</h3>
-                </div>
-            </div>
-        </div>
-
         <div class="row" style="margin:28px 0 12px 0; align-items:center;">
             <div class="col-md-6">
-                <a href="{{ route('dashboard.wallets.export') }}" target="_blank" class="btn-export">
-                    <i class="fi fi-rs-download"></i> دانلود اکسل
-                </a>
             </div>
             <div class="col-md-6" style="display:flex; gap:12px; align-items:center; justify-content:flex-end;">
                 <form method="get" style="display:flex; gap:12px; align-items:center;">
-                    <div class="select-group">
-                        <label style="display:none;">وضعیت</label>
-                        <select class="select" name="status" onchange="this.form.submit()">
-                            <option value="">وضعیت</option>
-                            <option value="deposit" @if(request('status')=='deposit') selected @endif>واریز</option>
-                            <option value="withdraw" @if(request('status')=='withdraw') selected @endif>برداشت</option>
-                        </select>
-                    </div>
                     <div class="select-group">
                         <label style="display:none;">ترتیب</label>
                         <select class="select" name="order" onchange="this.form.submit()">
@@ -120,29 +63,33 @@
                         <tr>
                             <th style="width:60px">ردیف</th>
                             <th style="min-width:120px">کاربر</th>
-                            <th style="min-width:120px">روز</th>
-                            <th style="min-width:140px">زمان</th>
-                            <th style="min-width:160px">مبلغ</th>
-                            <th style="min-width:180px">کد پیگیری</th>
-                            <th style="min-width:180px">نوع عملیات</th>
+                            <th style="min-width:120px">شماره تلفن</th>
+                            <th style="min-width:160px">موجودی</th>
+                            <th style="min-width:120px">وضعیت</th>
+                            <th style="min-width:180px">آخرین عملیات</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($histories as $i => $history)
+                        @forelse($wallets as $i => $wallet)
                             <tr>
-                                <td>{{ $histories->firstItem() + $i }}</td>
-                                <td>{{ optional($history->wallet?->user)->name ?: '-' }}</td>
-                                <td>{{ Verta::instance($history->created_at)->format('Y/m/d') }}</td>
-                                <td>{{ Verta::instance($history->created_at)->format('H:i') }}</td>
-                                <td>{{ number_format($history->amount) }} تومان</td>
-                                <td>{{ $history->tracking_id ?? '-' }}</td>
+                                <td>{{ $wallets->firstItem() + $i }}</td>
+                                <td>{{ optional($wallet->user)->name ?: '-' }}</td>
+                                <td>{{ optional($wallet->user)->phone ?: '-' }}</td>
+                                <td>{{ number_format($wallet->balance) }} تومان</td>
                                 <td>
-                                    <span class="status color-{{ $history->get_type_class() }}">{{ $history->get_type() }}</span>
+                                    <span class="status color-{{ $wallet->status ? 'success' : 'danger' }}">{{ $wallet->status ? 'فعال' : 'غیرفعال' }}</span>
+                                </td>
+                                <td>
+                                    @if($last_history = $wallet->histories()->latest()->first())
+                                        {{ $last_history->get_type() }} - {{ number_format($last_history->amount) }} تومان
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center text-muted">داده‌ای برای نمایش پیدا نشد</td>
+                                <td colspan="6" class="text-center text-muted">داده‌ای برای نمایش پیدا نشد</td>
                             </tr>
                         @endforelse
                         </tbody>
@@ -150,7 +97,7 @@
                 </div>
 
                 <div class="mt-3" style="display:flex; justify-content:center;">
-                    {{ $histories->links() }}
+                    {{ $wallets->links() }}
                 </div>
             </div>
         </div>

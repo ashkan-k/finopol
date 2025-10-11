@@ -17,15 +17,43 @@ class WalletController extends Controller
     {
         $query = Wallet::query()->with(['user']);
 
+        if ($request->filled('user')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', "%{$request->user}%");
+            });
+        }
+        if ($request->filled('phone')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('phone', 'like', "%{$request->phone}%");
+            });
+        }
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        $order = $request->get('order', 'desc');
-        $query->orderBy('created_at', $order);
+        $wallets = $query->paginate(20);
 
-        $histories = $query->paginate(20);
+        return view('admin.accounting.wallets', compact('wallets'));
+    }
 
-        return view('admin.accounting.wallets', compact('histories'));
+    public function export(Request $request)
+    {
+        $query = Wallet::query()->with('user');
+
+        if ($request->filled('user')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', "%{$request->user}%");
+            });
+        }
+        if ($request->filled('phone')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('phone', 'like', "%{$request->phone}%");
+            });
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        return Excel::download(new WalletHistoryExport($query), 'wallets_' . now()->format('Y-m-d_H-i-s') . '.xlsx');
     }
 }
