@@ -84,7 +84,7 @@ class User extends Authenticatable
         if ($this->status == 'waiting') {
             return 'waiting';
         } elseif ($this->status == 'approved') {
-            return 'fail';
+            return 'success';
         }
         return 'new';
     }
@@ -99,7 +99,7 @@ class User extends Authenticatable
         if ($this->shahkar_inquiry_status == 'waiting') {
             return 'waiting';
         } elseif ($this->shahkar_inquiry_status == 'approved') {
-            return 'fail';
+            return 'success';
         }
         return 'new';
     }

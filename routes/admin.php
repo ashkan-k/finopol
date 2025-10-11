@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\WalletController;
 
 Route::resource('tokens', TokenController::class)->names('tokens');
 Route::resource('users', UserController::class)->names('users');
+Route::get('users/{user}/detail', [UserController::class, 'show'])->name('users.detail');
+Route::patch('users/{user}/update-status', [UserController::class, 'updateStatus'])->name('users.update-status');
 Route::resource('finoservices', FinoServiceController::class)->names('finoservices');
 Route::resource('tickets', TicketController::class)->names('tickets');
 Route::get('api-calls', [ApiCallController::class, 'index'])->name('api-calls.index');

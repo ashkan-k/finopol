@@ -57,6 +57,8 @@
                             <th style="min-width:200px">نام</th>
                             <th style="min-width:160px">موبایل</th>
                             <th style="min-width:200px">ایمیل</th>
+                            <th style="min-width:200px">نتیجه‌ی استعلام شاهکار</th>
+                            <th style="min-width:200px">وضعیت تایید نهایی</th>
                             <th style="width:140px; text-align:center;">عملیات</th>
                         </tr>
                         </thead>
@@ -75,8 +77,15 @@
                                 </td>
                                 <td><span class="badge badge-info" style="direction:ltr">{{ $user->phone ?: '-' }}</span></td>
                                 <td style="direction:ltr">{{ $user->email ?: '-' }}</td>
+                                <td>
+                                    <span class="status color-{{ $user->get_shahkar_inquiry_status_class() }}">{{ $user->get_shahkar_inquiry_status() }}</span>
+                                </td>
+                                <td>
+                                    <span class="status color-{{ $user->get_status_class() }}">{{ $user->get_status() }}</span>
+                                </td>
                                 <td style="text-align:center;">
                                     <div style="display:inline-flex; gap:8px;">
+                                        <a class="btn btn-info" title="نمایش اطلاعات" href="{{ route('dashboard.users.show', $user) }}"><i class="fi fi-rs-eye"></i></a>
                                         <a class="btn btn-primary" title="ویرایش" href="{{ route('dashboard.users.edit', $user) }}"><i class="fi fi-rs-edit"></i></a>
                                         <form action="{{ route('dashboard.users.destroy', $user) }}" method="post" onsubmit="return confirm('حذف شود؟')">
                                             @csrf

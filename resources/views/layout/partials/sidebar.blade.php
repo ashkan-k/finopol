@@ -20,13 +20,6 @@
         </div>
     </li>
 
-    <!-- خروج از سیستم -->
-    <li class="nav-item">
-        <a class="sub-item" href="{{ route('dashboard.api-calls.index') }}">
-            <i class="fi fi-rs-chart-area"></i><span class="title">گزارش‌ها</span>
-        </a>
-    </li>
-
     <!-- مدیریت توکن ها -->
     <li class="nav-item">
         <a class="sub-item btn-collapse" data-collapse-target="#collapse-tokens">
@@ -71,7 +64,7 @@
     <!-- مدیریت سرویس ها -->
     <li class="nav-item">
         <a class="sub-item btn-collapse" data-collapse-target="#collapse-finance">
-            <i class="fi fi-rs-ticket"></i><span class="title">مالی و حسابداری</span>
+            <i class="fi fi-rs-money"></i><span class="title">مالی و حسابداری</span>
             <div class="icon icon-angel"></div>
         </a>
         <div class="card-collapse" id="collapse-finance">
@@ -80,6 +73,13 @@
                 <li><a href="{{ route('dashboard.wallets-histories.index') }}">گزارش کیف پول ها</a></li>
             </ul>
         </div>
+    </li>
+
+    <!-- گزارش‌ها -->
+    <li class="nav-item">
+        <a class="sub-item" href="{{ route('dashboard.api-calls.index') }}">
+            <i class="fi fi-rs-chart-area"></i><span class="title">گزارش‌ها</span>
+        </a>
     </li>
 
     <!-- خروج از سیستم -->

@@ -52,6 +52,23 @@ class UserController extends Controller
         return redirect()->route('dashboard.users.index')->with('success', 'کاربر بروزرسانی شد.');
     }
 
+    public function show(User $user): View
+    {
+        return view('admin.users.detail', compact('user'));
+    }
+
+    public function updateStatus(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'status' => 'required|in:' . implode(',', array_keys(\App\Enums\EnumHelpers::$UserStatusEnum)),
+            'shahkar_inquiry_status' => 'required|in:' . implode(',', array_keys(\App\Enums\EnumHelpers::$ShahkarInquiryStatusEnum)),
+        ]);
+
+        $user->update($data);
+
+        return redirect()->back()->with('success', 'وضعیت کاربر با موفقیت بروزرسانی شد.');
+    }
+
     public function destroy(User $user): RedirectResponse
     {
         $user->delete();
